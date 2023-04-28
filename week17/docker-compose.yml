@@ -1,0 +1,41 @@
+# Convert the following Docker Compose file to a properly formatted Kubernetes deployment YAML file:
+version: "3"
+
+services:
+  redis:
+    image: redis
+    deploy:
+      replicas: 4
+      placement:
+        constraints: [node.role != manager]
+    ports:
+      - "6379:6379"
+    networks:
+      - mynetwork
+
+  apache:
+    image: httpd
+    deploy:
+      replicas: 10
+      placement:
+        constraints: [node.role != manager]
+    ports:
+      - "8080:80"
+    networks:
+      - mynetwork
+
+  postgres:
+    image: postgres
+    deploy:
+      replicas: 1
+      placement:
+        constraints: [node.role != manager]
+    environment:
+      POSTGRES_PASSWORD: password
+    ports:
+      - "5432:5432"
+    networks:
+      - mynetwork
+
+networks:
+  mynetwork:

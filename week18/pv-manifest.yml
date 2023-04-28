@@ -1,0 +1,16 @@
+# This YAML creates a Persistent Volume resource for Kubernetes.
+apiVersion: v1 
+kind: PersistentVolume 
+
+# Metadata for the Persistent Volume.
+metadata: 
+  name: pv-example
+
+# The specifications of the Persistent Volume.
+spec: 
+  capacity: 
+    storage: 250Mi   # The maximum amount of storage available for the Persistent Volume.
+  accessModes: 
+    - ReadWriteOnce  # The access mode of the Persistent Volume, which is read and write for one node.
+  hostPath: 
+    path: /temp/k8s  # The path on the host machine where the Persistent Volume will be mounted.

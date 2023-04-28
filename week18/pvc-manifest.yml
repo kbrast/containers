@@ -1,0 +1,14 @@
+# This YAML file defines a Kubernetes Persistent Volume Claim object with the following properties:
+apiVersion: v1  # Specifies the Kubernetes API version to use
+kind: PersistentVolumeClaim  # Specifies that the object is a Persistent Volume Claim
+
+metadata:  # Defines metadata for the object
+  name: pvc-example  # Specifies the name of the Persistent Volume Claim
+
+spec:  # Specifies the specification for the Persistent Volume Claim
+  accessModes:  # Specifies the access modes for the Persistent Volume Claim
+    - ReadWriteOnce  # Specifies that the volume can be mounted as read-write by a single node
+
+  resources:  # Specifies the resource requirements for the Persistent Volume Claim
+    requests:  # Specifies the requested resources
+      storage: 250Mi  # Specifies the amount of storage to request (250MiB)

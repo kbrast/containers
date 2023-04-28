@@ -1,0 +1,12 @@
+apiVersion: v1      # Defines the version of the Kubernetes API being used
+kind: Service       # Defines that this YAML describes a Service object
+metadata:           # Contains metadata (information about the Service object)
+  name: nginx-service   # Specifies the name of the Service object
+spec:               # Describes the desired state of the Service object
+  selector:           # Specifies the set of pods that this Service should target
+    app: nginx          # Selects pods with the label "app=nginx"
+  ports:              # Specifies the network ports that the Service should listen on
+    - protocol: TCP       # Specifies that this port uses the TCP protocol
+      port: 80            # Specifies the port number that the Service should listen on
+      targetPort: 80      # Specifies the port number that the Service should forward traffic to
+  type: LoadBalancer  # Specifies that the Service should be exposed externally to load balance incoming traffic
