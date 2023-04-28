@@ -1,0 +1,40 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: mydeployment
+spec:
+  replicas: 4
+  selector:
+    matchLabels:
+      app: myapp
+  template:
+    metadata:
+      labels:
+        app: myapp
+    spec:
+      containers:
+        - name: redis
+          image: redis
+          ports:
+          - containerPort: 6379
+        - name: apache
+          image: httpd
+          ports:
+          - containerPort: 80
+        - name: postgres
+          image: postgres
+          ports:
+          - containerPort: 5432
+          env:
+            - name: POSTGRES_PASSWORD
+              value: password
+      affinity:
+        nodeAffinity:
+          requiredDuringSchedulingIgnoredDuringExecution:
+            nodeSelectorTerms:
+              - matchExpressions:
+                  - key: node.role
+                    operator: NotIn
+                    values:
+                      - manager
+      restartPolicy: Always

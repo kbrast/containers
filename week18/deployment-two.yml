@@ -1,0 +1,41 @@
+apiVersion: apps/v1  # Define the Kubernetes API version to use
+kind: Deployment  # Create a Deployment resource
+metadata:
+  name: deployment-two  # Give this Deployment the name "deployment-two"
+spec:
+  replicas: 2  # Create 2 replicas of the pod created by this Deployment
+  selector:
+    matchLabels:  # Select pods with labels that match these labels
+      app: nginx  # The label "app" must be set to "nginx"
+      deployment: two  # The label "deployment" must be set to "two"
+  template:
+    metadata:
+      labels:
+        app: nginx  # Set the label "app" to "nginx"
+        deployment: two  # Set the label "deployment" to "two"
+    spec:
+      containers:  # Specify a list of containers to run in this pod
+      - name: nginx  # Give this container the name "nginx"
+        image: nginx  # Use the official Nginx Docker image
+        volumeMounts:  # Mount a volume in the container's filesystem
+        - name: config-volume  # Use the volume named "config-volume"
+          mountPath: /usr/share/nginx/html  # Mount the volume at this path in the container
+      volumes:  # Define a list of volumes to use in this pod
+      - name: config-volume  # Create a volume named "config-volume"
+        configMap:  # Mount a ConfigMap in this volume
+          name: deployment-two-configmap  # Use the ConfigMap named "deployment-two-configmap"
+          items:  # Specify a list of items to include in this ConfigMap
+          - key: index.html  # Include the key "index.html" from the ConfigMap
+            path: index.html  # Mount this key at this path in the volume
+---  # Use a YAML separator to separate resources
+apiVersion: v1  # Define the Kubernetes API version to use
+kind: ConfigMap  # Create a ConfigMap resource
+metadata:
+  name: deployment-two-configmap  # Give this ConfigMap the name "deployment-two-configmap"
+data:
+  index.html: |  # Include the file contents for the key "index.html" in this ConfigMap
+    <html>
+    <body>
+    <h1>This is Deployment Two</h1>
+    </body>
+    </html>
